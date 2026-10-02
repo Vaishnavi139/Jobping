@@ -67,7 +67,6 @@ node test/test-e2e.js     # headless-Chromium E2E incl. strict-title/location fi
 - **Web page, not a server.** Checks and email digests run while the app is open. True 24/7 alerting needs a hosted backend (not included).
 - **No LinkedIn/Indeed scraping** — violates their ToS and risks your account. JSearch (optional free key) aggregates them legitimately.
 - **Scores are an ATS-style estimate** — not any employer's actual ATS. Always read the posting.
-- **Close → reopen** always lands on Home and refreshes data, so you never stare at stale matches.
 
 ---
 
