@@ -1,262 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>JobPing — Be the first to apply.</title>
-<meta name="description" content="JobPing watches job boards for you and pings you the moment a matching role appears. Be the first to apply.">
-<link rel="stylesheet" href="styles.css">
+<title>JobPing — Be the first to apply</title>
+<style>
+  :root{color-scheme:light dark}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+    min-height:100vh;display:flex;align-items:center;justify-content:center;
+    background:#0e1526;color:#e8edf5;padding:24px}
+  .card{max-width:560px;text-align:center;display:flex;flex-direction:column;gap:20px;align-items:center}
+  .logo{width:56px;height:56px;border-radius:16px;background:#2a55f5;display:flex;align-items:center;justify-content:center;
+    font-size:28px;font-weight:700;color:#fff}
+  h1{font-size:clamp(2rem,6vw,3rem);letter-spacing:-.02em;line-height:1.1}
+  p{color:#9aa7bd;font-size:1.1rem;line-height:1.6;max-width:44ch}
+  a.cta{display:inline-block;background:#2a55f5;color:#fff;text-decoration:none;font-weight:600;
+    padding:14px 32px;border-radius:12px;font-size:1.05rem}
+  a.cta:hover{filter:brightness(1.12)}
+  .meta{font-size:.85rem;color:#5c6b84}
+  .meta a{color:#8fa3c8}
+</style>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-
-<main id="main">
-  <!-- LANDING -->
-  <section class="view hero-bg" data-view="landing" hidden>
-    <div class="wrap narrow center">
-      <div class="logo"><span class="bell">🔔</span>JobPing</div>
-      <h1 class="hero">Be the <em>first</em> to apply.</h1>
-      <p class="lede">JobPing watches job boards around the clock and pings you the moment a role matching your profile appears — so you apply in minutes, not days.</p>
-      <ul class="how">
-        <li><span class="how-n">1</span><div><strong>Tell it what you want.</strong> Job titles, locations, remote preference, and your resume.</div></li>
-        <li><span class="how-n">2</span><div><strong>It checks while you live.</strong> New postings are scored against your profile on your schedule.</div></li>
-        <li><span class="how-n">3</span><div><strong>You get pinged.</strong> In-app badges, browser notifications, and email digests for top matches — email needs a free key, set in Alerts.</div></li>
-      </ul>
-      <button class="btn btn-primary btn-big" data-nav="#/onboarding" id="landing-cta">Set up JobPing →</button>
-      <button class="btn btn-big" data-nav="#/jobs" id="landing-back" hidden>← Back to my matches</button>
-      <button class="btn btn-block" data-nav="#/profile" id="landing-edit" hidden style="margin-top:.5rem">Edit my details →</button>
-      <div class="trust-row">
-        <span class="tag">🔒 Private by design</span>
-        <span class="tag">⚡ No signup needed</span>
-        <span class="tag">📱 Works on your phone</span>
-      </div>
-      <p class="fine">Free. Your data stays in your browser — private by design. <span class="ver">v1.6</span></p>
-    </div>
-  </section>
-
-  <!-- ONBOARDING -->
-  <section class="view" data-view="onboarding" hidden>
-    <div class="wrap narrow">
-      <h1>Let's set up your alerts</h1>
-      <p class="lede">Two minutes now, and JobPing does the job hunting for you.</p>
-      <form id="onboard-form" novalidate>
-        <label class="field"><span>Email for digests <em>(used with your email key in Alerts)</em> <b class="req">Required</b></span>
-          <input type="email" id="ob-email" placeholder="you@example.com" autocomplete="email" inputmode="email" required></label>
-        <label class="field"><span>Job titles <em>(up to 5, comma-separated)</em> <b class="req">Required</b></span>
-          <input type="text" id="ob-titles" placeholder="Product Manager, Product Analyst"></label>
-        <div class="field"><span>Experience level <b class="req">Required</b></span>
-          <div class="pills" id="ob-level">
-            <button type="button" class="pill" data-v="entry">Entry</button>
-            <button type="button" class="pill" data-v="mid">Mid</button>
-            <button type="button" class="pill" data-v="senior">Senior</button>
-          </div></div>
-        <label class="field"><span>Years of experience <em>(optional)</em></span>
-          <input type="number" id="ob-years" placeholder="e.g. 2" min="0" max="50" inputmode="numeric"></label>
-        <div class="field"><span>Job type <em>(optional — pick any)</em></span>
-          <div class="pills" id="ob-jobtype">
-            <button type="button" class="pill" data-v="fulltime">Full-time</button>
-            <button type="button" class="pill" data-v="contract">Contract</button>
-            <button type="button" class="pill" data-v="internship">Internship</button>
-          </div></div>
-        <label class="field"><span>Preferred locations <em>(optional, comma-separated)</em></span>
-          <input type="text" id="ob-locations" placeholder="New York, Boston"></label>
-        <label class="check"><input type="checkbox" id="ob-remote" checked> <span>Remote OK <em>(optional)</em></span></label>
-        <label class="field"><span>Keywords <em>(optional, comma-separated)</em></span>
-          <input type="text" id="ob-keywords" placeholder="fintech, SQL, experimentation"></label>
-        <label class="field"><span>Your resume <em>(optional — JobPing scores job descriptions against it)</em></span>
-          <textarea id="ob-resume" rows="5" placeholder="Paste your resume here"></textarea></label>
-        <div class="form-errors" id="ob-errors" role="alert" hidden></div>
-        <button class="btn btn-primary btn-big btn-block" type="submit">Start pinging me →</button>
-      </form>
-    </div>
-  </section>
-
-  <!-- JOBS / DASHBOARD -->
-  <section class="view" data-view="jobs" hidden>
-    <div class="wrap">
-      <div class="dash-head">
-        <div><h1>Matches</h1><p class="muted" id="jobs-sub">New roles scored for you.</p></div>
-        <button class="btn btn-primary" id="check-now">Check now</button>
-      </div>
-      <div class="dash-stats" id="dash-stats" aria-live="polite"></div>
-      <div class="src-status" id="src-status" aria-live="polite"></div>
-      <div class="apply-mode card">
-        <div class="apply-mode-top"><strong>Apply mode</strong>
-          <span class="badge" id="mode-badge"></span></div>
-        <div class="mode-list" id="apply-mode-pills">
-          <button type="button" class="pill mode-opt" data-v="alerts">
-            <span class="mode-t">🔔 Alerts only</span>
-            <span class="mode-d">JobPing watches the boards and pings you about new matches. You open each job and apply yourself.</span>
-          </button>
-          <button type="button" class="pill mode-opt" data-v="prep">
-            <span class="mode-t">⚡ Prep + one-click approve</span>
-            <span class="mode-d">Tap <strong>Packet</strong> on any match and JobPing opens a ready sheet: the employer's application link, your resume with one-tap copy, and your saved answers with one-tap copy. You paste and submit yourself, then tap Done — it's tracked in History. JobPing never submits anything on its own.</span>
-          </button>
-        </div>
-      </div>
-      <div id="new-banner" class="new-banner" hidden></div>
-      <div class="filter-row">
-        <label class="field inline"><span>Min score</span>
-          <select id="min-score-filter"><option>0</option><option>40</option><option selected>60</option><option>80</option></select></label>
-        <label class="check"><input type="checkbox" id="new-only"> <span>New only</span></label>
-        <label class="field inline"><span>Sponsorship</span>
-          <select id="sponsorship-filter"><option value="any">Any</option><option value="needed">Needed</option></select></label>
-        <label class="field inline"><span>Level</span>
-          <select id="level-filter"><option value="all">All</option><option value="junior">Entry</option><option value="mid">Mid</option><option value="senior">Senior</option></select></label>
-        <label class="field inline"><span>Workplace</span>
-          <select id="workplace-filter"><option value="all">All</option><option value="remote">Remote</option><option value="hybrid">Hybrid</option><option value="onsite">On-site</option></select></label>
-        <label class="check"><input type="checkbox" id="strict-titles" checked> <span>Strict titles</span></label>
-        <label class="check"><input type="checkbox" id="strict-location" checked> <span>Strict location</span></label>
-        <button class="btn" id="select-toggle" type="button">Select</button>
-      </div>
-      <div id="sel-bar" class="sel-bar" hidden></div>
-      <div id="matches"></div>
-    </div>
-  </section>
-
-  <!-- HISTORY -->
-  <section class="view" data-view="history" hidden>
-    <div class="wrap">
-      <h1>Application history</h1>
-      <p class="muted">Everything you've saved or applied to, with status you control.</p>
-      <div id="history-list"></div>
-    </div>
-  </section>
-
-  <!-- ALERTS -->
-  <section class="view" data-view="alerts" hidden>
-    <div class="wrap narrow">
-      <h1>Alert settings</h1>
-      <div class="card">
-        <div class="row-between"><div><strong>Pause all alerts</strong><p class="muted sm">Take a break — nothing is checked or sent while paused.</p></div>
-        <button class="switch" id="set-paused" role="switch" aria-checked="false" aria-label="Pause all alerts"><span></span></button></div>
-      </div>
-      <div class="card">
-        <label class="field"><span>How often</span>
-          <select id="set-frequency">
-            <option value="20m">Every 20 minutes</option>
-            <option value="30m">Every 30 minutes</option>
-            <option value="1h" selected>Every hour</option>
-            <option value="daily">Daily digest</option>
-          </select></label>
-        <div class="field"><span>Days</span><div class="pills" id="set-days"></div></div>
-        <div class="grid2">
-          <label class="field"><span>Active from</span><select id="set-start"></select></label>
-          <label class="field"><span>Active until</span><select id="set-end"></select></label>
-        </div>
-        <div class="field"><span>Timezone</span>
-          <div class="tz-row"><input type="text" id="set-tz" placeholder="America/New_York">
-          <button class="btn" id="detect-tz" type="button">Detect</button></div></div>
-        <div class="grid2">
-          <label class="field"><span>Minimum match score</span><input type="number" id="set-minscore" min="0" max="100" step="5"></label>
-          <label class="field"><span>Max alerts / day</span><input type="number" id="set-dailylimit" min="1" max="50"></label>
-        </div>
-      </div>
-      <div class="card">
-        <div class="row-between"><div><strong>Browser notifications</strong><p class="muted sm">A ping the moment a top match lands, even in another tab.</p></div>
-        <button class="btn" id="enable-notif" type="button">Enable</button></div>
-      </div>
-      <div class="card">
-        <h2>Email digests</h2>
-        <div class="row-between"><div><strong>Email digests</strong><p class="muted sm">Turn off anytime to stop emails instantly. Pausing all alerts (above) stops everything too.</p></div>
-        <button class="switch" id="set-email-on" role="switch" aria-checked="true" aria-label="Email digests"><span></span></button></div>
-        <p class="muted sm">Get matching jobs in your inbox — takes about 30 seconds:</p>
-        <ol class="steps">
-          <li>Tap <strong>Get your free key</strong> — it opens web3forms.com in a new tab.</li>
-          <li>On their site, type your email and submit. They'll show you an <strong>access key</strong>.</li>
-          <li>Copy that key, come back here, paste it in the box below, and tap <strong>Save key</strong>.</li>
-          <li>Tap <strong>Send test email</strong> and check your inbox. That's it — you'll now get digests automatically.</li>
-        </ol>
-        <div class="row"><a class="btn btn-primary" href="https://web3forms.com" target="_blank" rel="noopener">Get your free key</a></div>
-        <label class="field"><span>Paste your access key here</span>
-          <input type="text" id="email-key" placeholder="paste your key" autocomplete="off"></label>
-        <div class="row"><button class="btn" id="save-email-key" type="button">Save key</button>
-        <button class="btn" id="test-email" type="button">Send test email</button></div>
-        <p class="fine" id="email-key-status"></p>
-        <p class="fine">Heads up: JobPing is a web page, so digests send while it's open and checks run — it can't email you while it's closed. Turn off anytime above to stop instantly.</p>
-        <button class="btn btn-block" id="export-config" type="button">Export alert config (JSON)</button>
-      </div>
-      <div class="card">
-        <h2>Job sources</h2>
-        <div class="callout">💡 Want <strong>LinkedIn, Indeed &amp; Glassdoor</strong> listings too? <strong>JSearch</strong> below aggregates them — add a free key to unlock it.</div>
-        <p class="muted sm">JobPing checks every enabled source below. Free sources just work — key sources unlock when you add your own free API key. Note: key-based sources are fetched from your browser; if your browser blocks them, the assistant scheduler (see README) covers them reliably.</p>
-        <div id="source-settings"></div>
-      </div>
-      <div class="card danger-zone">
-        <strong>Delete my data</strong>
-        <p class="muted sm">Wipes your profile, resume, matches, and history from this browser. Can't be undone.</p>
-        <button class="btn btn-danger" id="delete-data" type="button">Delete everything</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROFILE -->
-  <section class="view" data-view="profile" hidden>
-    <div class="wrap narrow">
-      <h1>Profile</h1>
-      <div class="card">
-        <h2>Resume</h2>
-        <label class="field"><span>Paste resume text</span>
-          <textarea id="resume-text" rows="8" placeholder="Paste your resume here — JobPing extracts keywords to match you better."></textarea></label>
-        <div class="grid2">
-          <label class="file-btn">Upload .txt<input type="file" id="resume-txt" accept=".txt,text/plain" hidden></label>
-          <label class="file-btn">Upload PDF<input type="file" id="resume-pdf" accept=".pdf,application/pdf" hidden></label>
-        </div>
-        <p class="fine" id="resume-status"></p>
-        <div id="resume-file"></div>
-        <div id="resume-keywords" class="kw-cloud" aria-live="polite"></div>
-      </div>
-      <div class="card">
-        <h2>Details</h2>
-        <div class="grid2">
-          <label class="field"><span>Name</span><input type="text" id="d-name" autocomplete="name"></label>
-          <label class="field"><span>Phone</span><input type="tel" id="d-phone" autocomplete="tel"></label>
-        </div>
-        <label class="field"><span>LinkedIn</span><input type="url" id="d-linkedin" placeholder="https://linkedin.com/in/you"></label>
-        <label class="field"><span>Portfolio</span><input type="url" id="d-portfolio" placeholder="https://your-site.com"></label>
-      </div>
-      <div class="card">
-        <h2>Saved answers</h2>
-        <p class="muted sm">Prefilled into your application packet, ready to copy.</p>
-        <div id="answers"></div>
-        <button class="btn btn-block" id="add-answer" type="button">+ Add answer</button>
-      </div>
-      <div class="card">
-        <h2>Job preferences</h2>
-        <label class="field"><span>Job titles <em>(comma-separated, up to 5)</em></span><input type="text" id="p-titles"></label>
-        <div class="field"><span>Experience level</span><div class="pills" id="p-level">
-          <button type="button" class="pill" data-v="entry">Entry</button>
-          <button type="button" class="pill" data-v="mid">Mid</button>
-          <button type="button" class="pill" data-v="senior">Senior</button>
-        </div></div>
-        <label class="field"><span>Years of experience</span><input type="number" id="p-years" min="0" max="50" inputmode="numeric"></label>
-        <div class="field"><span>Job type <em>(pick any)</em></span><div class="pills" id="p-jobtype">
-          <button type="button" class="pill" data-v="fulltime">Full-time</button>
-          <button type="button" class="pill" data-v="contract">Contract</button>
-          <button type="button" class="pill" data-v="internship">Internship</button>
-        </div></div>
-        <label class="field"><span>Preferred locations <em>(comma-separated)</em></span><input type="text" id="p-locations"></label>
-        <label class="check"><input type="checkbox" id="p-remote"> <span>Remote OK</span></label>
-        <label class="field"><span>Keywords <em>(comma-separated)</em></span><input type="text" id="p-keywords"></label>
-        <label class="field"><span>Email for digests</span><input type="email" id="p-email"></label>
-        <button class="btn btn-primary btn-block" id="save-prefs" type="button">Save preferences</button>
-      </div>
-    </div>
-  </section>
-</main>
-
-<nav id="tabbar" aria-label="Main" hidden>
-  <button data-nav="#/home">⌂<span>Home</span></button>
-  <button data-nav="#/jobs">💼<span>Jobs</span></button>
-  <button data-nav="#/history">📁<span>History</span></button>
-  <button data-nav="#/alerts">🔔<span>Alerts</span></button>
-  <button data-nav="#/profile">👤<span>Profile</span></button>
-</nav>
-
-<div class="toast-region" id="toast-region" aria-live="polite"></div>
-<div id="modal-root"></div>
-
-<script src="logic.js"></script>
-<script src="app.js"></script>
+  <div class="card">
+    <div class="logo">J</div>
+    <h1>Be the first to apply.</h1>
+    <p>JobPing is a personal job-search assistant — set your titles and preferences, and get alerted the moment new matching postings appear across Jooble, JSearch, and Adzuna.</p>
+    <a class="cta" href="https://fortunate-find-ping-apply.base44.app">Open the live app →</a>
+    <div class="meta">Built with Base44 · by <a href="https://github.com/Vaishnavi139">Vaishnavi Koya</a></div>
+  </div>
 </body>
 </html>
