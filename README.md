@@ -8,10 +8,10 @@
 
 - **ATS-style resume matching** — every job scored 0–100 by how much of *its* keywords appear in *your* resume, with a tap-to-open breakdown of matched vs. missing terms
 - **7 job sources** — 5 free out of the box (Arbeitnow, Remotive, The Muse, Jobicy, RemoteOK) + Adzuna and JSearch (aggregates LinkedIn / Indeed / Glassdoor) via your own free API keys
-- **Strict title & location filters** — "Financial Analyst" never shows "Data Analyst" roles; "New York" never shows worldwide noise
+- **Strict title & location filters** — Ex: "Financial Analyst" never shows "Data Analyst" roles; "New York" never shows worldwide noise
 - **Remote / hybrid / on-site, sponsorship & experience-level filters**
-- **Email digests** — free Web3Forms key, 30-second guided setup in the app
-- **Apply prep mode** — one-tap packets with the application link, your resume, saved answers & cover letters. You always submit yourself — nothing auto-applies, ever
+- **Email digests** — 30-second guided setup in the app
+- **Apply prep mode** — one-tap packets with the application link, your resume, saved answers & cover letters. Auto-fills the data, review and submit yourself
 - **100% private** — no accounts, no server. Everything lives in your browser's localStorage
 
 ![Score breakdown](screenshots/score-breakdown.jpg)
@@ -68,6 +68,4 @@ node test/test-e2e.js     # headless-Chromium E2E incl. strict-title/location fi
 - **No LinkedIn/Indeed scraping** — violates their ToS and risks your account. JSearch (optional free key) aggregates them legitimately.
 - **Scores are an ATS-style estimate** — not any employer's actual ATS. Always read the posting.
 
----
 
-*Independent concept project. Not affiliated with any employer or job board.*
